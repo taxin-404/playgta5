@@ -109,6 +109,8 @@ if __name__ == '__main__':
     args.add_argument('--port', type=int, default=8000)
     args.add_argument('--open', action='store_true', help='open the default browser after binding')
     options = args.parse_args()
+    if not ROOT.is_dir():
+        args.error('game data not found: %s (place your mirror folder there, or run mirror_site.py)' % ROOT)
     server = ThreadingHTTPServer(('127.0.0.1', options.port), Handler)
     address = 'http://localhost:%d/' % server.server_port
     print('Local mirror: %s (Ctrl+C to stop)' % address, flush=True)

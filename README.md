@@ -42,6 +42,27 @@ And don't email me for asking the mirror folder. I will not reply to the email.
 
 4. Voila!
 
+# Linux / macOS
+The bundled `runtime\` folder is a Windows-only Python, so the Linux launcher uses your system Python instead:
+
+1. Place the mirror folder at `mirror/playgta5.com/` (same as Windows).
+2. You need Python 3.11+ (`sudo apt install python3` on most distros).
+3. Run it:
+
+```bash
+./Launch-Local.sh
+```
+
+It opens `http://localhost:8000/` like the Windows launcher. Any args are passed to the server, e.g. `./Launch-Local.sh --port 9000`.
+
+Browser: the engine needs WebGPU. Recent Chromium/Chrome works out of the box on Linux with Vulkan drivers. If the GPU worker fails to start, try launching the browser with `--enable-unsafe-webgpu --enable-features=Vulkan`. Firefox support is still catchier on Linux.
+
+To download the game data on Linux (same script, standard library only):
+
+```bash
+python3 mirror_site.py --workers 32 --rate-mib 0
+```
+
 # Requirement
 Scripts require standard-library Python 3.11 or newer. The bundled Python path
 in the commands above is specific to the original PC; the portable ZIP instead
