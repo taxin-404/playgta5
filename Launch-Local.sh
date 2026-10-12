@@ -23,8 +23,10 @@ fi
 "$PYTHON" -c 'import sys; sys.exit(0 if sys.version_info >= (3, 11) else sys.exit("Python 3.11+ required, found " + sys.version.split()[0]))'
 
 # The engine needs WebGPU: Firefox on Linux cannot run it, so open a
-# Chromium-based browser with WebGPU/Vulkan enabled instead of the
-# default browser (serve_local.py --open would pick Firefox).
+# Chromium-based browser instead of the default browser
+# (serve_local.py --open would pick Firefox). Vulkan gives Chromium a
+# working WebGPU adapter; --enable-unsafe-webgpu is not needed on
+# current Chrome and triggers an "unsupported command-line flag" warning.
 PORT=8000
 args=()
 while [ $# -gt 0 ]; do
@@ -70,10 +72,10 @@ mkdir -p "$PROFILE"
 	done
 	if command -v setsid >/dev/null 2>&1; then
 		setsid "$BROWSER" --user-data-dir="$PROFILE" --no-first-run \
-			--enable-unsafe-webgpu --enable-features=Vulkan "$URL" >/dev/null 2>&1 </dev/null &
+			--enable-features=Vulkan "$URL" >/dev/null 2>&1 </dev/null &
 	else
 		"$BROWSER" --user-data-dir="$PROFILE" --no-first-run \
-			--enable-unsafe-webgpu --enable-features=Vulkan "$URL" >/dev/null 2>&1 </dev/null &
+			--enable-features=Vulkan "$URL" >/dev/null 2>&1 </dev/null &
 	fi
 ) &
 
